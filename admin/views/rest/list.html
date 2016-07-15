@@ -1,0 +1,46 @@
+{% extends '../layout.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h4>接口列表</h4>
+    <hr>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>url</th>
+            <th>方法</th>
+            <th>说明</th>
+            <th>编辑</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for index, rest in restDatas %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{rest.title}}</td>
+            <td>{{rest.urlPath}}</td>
+            <td>{{rest.method}}</td>
+            <td>{{rest.remark}}</td>
+            <td>
+                <a href="/rest/add?id={{rest._id + ''}}" class="fui-new text-primary"></a>
+            </td>
+            <td>
+                <a href="/rest/delete?id={{rest._id + ''}}" class="fui-trash text-danger"></a>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}
+
+

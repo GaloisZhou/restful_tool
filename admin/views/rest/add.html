@@ -1,0 +1,93 @@
+{% extends '../layout.html' %} {% block content %}
+
+<div class="container">
+    <h4>添加接口</h4>
+    <hr>
+
+    <form class="form-horizontal" role="form" action="/rest/add" method="post">
+
+        <p><strong>请求方法</strong></p>
+        <div class="form-group">
+            <label class="col-md-2">接口名称</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="title" value="{{restData.title}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">接口说明</label>
+            <div class="col-md-10">
+                <textarea class="form-control" name="remark" rows="5">{{restData.remark}}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">url</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="urlPath" value="{{restData.urlPath}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2">方法</label>
+            <div class="col-md-10">
+                <select class="form-control" name="method">
+                    {% for m in methods %}
+                    <option value="{{m}}" {% if m == restData.method %}selected{% endif %}>{{m}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">请求参数</label>
+            <div class="col-md-10">
+                请求参数设置（现在不想做）
+            </div>
+        </div>
+
+        <hr>
+
+        <p><strong>返回说明</strong></p>
+
+        <div class="form-group">
+            <label class="col-md-2">返回参数</label>
+            <div class="col-md-10">
+                返回参数设置（现在不想做）
+            </div>
+        </div>
+
+        <p><strong>例子</strong></p>
+
+        <div class="form-group">
+            <label class="col-md-2">请求数据(JSON)</label>
+            <div class="col-md-10">
+                <textarea class="form-control" name="requestDemo" rows="5" placeholder="无用（现在不想做）">{{restData.requestDemo}}</textarea>
+                <p>只用填写 POST 请求的数据. 无用（现在不想做）</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">返回数据(JSON)</label>
+            <div class="col-md-10">
+                <textarea class="form-control" name="responseDemo" rows="5">{{restData.responseDemo}}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2"></label>
+            <div class="col-md-10">
+                {% if restData._id %}
+                <input type="hidden" name="_id" value="{{restData._id + ''}}"> {% endif %}
+                <input type="submit" class="btn btn-primary" var="保存" />
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if errMsg %}
+<script type="text/javascript">
+    alert('{{errMsg}}');
+</script>
+{%endif%}
+
+{% endblock content %}

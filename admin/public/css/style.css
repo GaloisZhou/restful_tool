@@ -1,0 +1,65 @@
+#signin {
+    background-image: url('/images/bg1.jpg');
+    background-size: cover;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 990;
+}
+
+.login-screen {
+    position: absolute;
+    width: 320px;
+    height: 240px;
+    top: 50%;
+    left: 50%;
+    margin-top: -120px;
+    margin-left: -160px;
+    z-index: 992;
+}
+
+.login-screen-bg {
+    opacity: .7;
+    z-index: 992;
+}
+
+.mt-20 {
+    margin-top: -20px;
+}
+
+.ml-20 {
+    margin-left: -20px;
+}
+
+.rpDImg {
+    height: 230px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.rpDImg img {
+    max-width: 100%;
+    max-height: 200px;
+}
+
+.rp-manual-list {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.to-right {
+    position: relative;
+    text-align: right;
+}
+
+
+

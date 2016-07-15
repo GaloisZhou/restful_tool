@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}登录{% endblock title %}
+{% block nav %}{% endblock nav %}
+
+{% block content %}
+<div id="signin" class="fullscreen">
+
+    <div class="alert alert-info login-screen login-screen-bg">
+    </div>
+    <div class="alert login-screen">
+        <form action="/signin" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" name="username" class="form-control" placeholder="用户名" value="{{username}}"/>
+                <span class="form-control-feedback fui-user"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" class="form-control" placeholder="密码" value="{{password}}"/>
+                <span class="form-control-feedback fui-lock"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="登录"/>
+            </div>
+            <div class="form-group has-feedback pull-right mt-20">
+                <a type="button" class="btn btn-link">忘记密码</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock content %}

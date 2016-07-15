@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{{title || '接口生成测试工具'}}{% endblock %}</title>
+
+    {% block head %}
+    <link rel="stylesheet" href="http://static.eppqq.com/libmin/fui/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="http://static.eppqq.com/libmin/fui/fui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    {% endblock %}
+</head>
+<body>
+{% block nav %}
+<style>
+    body {
+        padding-top: 70px;
+        padding-bottom: 108px;
+    }
+</style>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+        </button>
+        <a class="navbar-brand" href="#">接口生成测试工具</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <!--<li><a href="#">接口管理</a></li>-->
+            <li class="dropdown active">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">接口管理 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/rest/add">添加接口</a></li>
+                    <li><a href="/rest/list">接口列表</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">接口测试</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a>{{username}}</a></li>
+            <li><a href="/signout">退出</a></li>
+        </ul>
+    </div>
+</div>
+
+
+{% endblock nav %}
+{% block content %}{% endblock %}
+
+{% block footer %}
+<script src="http://static.eppqq.com/libmin/fui/vendor/jquery.min.js"></script>
+<script src="http://static.eppqq.com/libmin/fui/fui.min.js"></script>
+{% endblock footer %}
+
+{% block bottom %}
+<div class="bottom-menu bottom-menu-inverse" style="position: fixed; bottom: 0; width: 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <a href="#fakelink" class="bottom-menu-brand">Flat UI</a>
+            </div>
+            <div class="col-md-8 col-sm-8">
+                <ul class="bottom-menu-list">
+                    <li><a href="#fakelink">About Us</a></li>
+                    <li><a href="#fakelink">Store</a></li>
+                    <li class="active"><a href="#fakelink">Jobs</a></li>
+                    <li><a href="#fakelink">Privacy</a></li>
+                    <li><a href="#fakelink">Terms</a></li>
+                    <li><a href="#fakelink">Follow Us</a></li>
+                    <li><a href="#fakelink">Support</a></li>
+                    <li><a href="#fakelink">Links</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <ul class="bottom-menu-iconic-list">
+                    <li><a href="#fakelink" class="fui-pinterest"></a></li>
+                    <li><a href="#fakelink" class="fui-facebook"></a></li>
+                    <li><a href="#fakelink" class="fui-twitter"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock bottom%}
+</body>
+</html>
+
