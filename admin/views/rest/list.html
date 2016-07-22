@@ -1,6 +1,4 @@
-{% extends '../layout.html' %}
-
-{% block content %}
+{% extends '../layout.html' %} {% block content %}
 
 <div class="container">
     <h4>接口列表</h4>
@@ -8,33 +6,36 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th>#</th>
-            <th>名称</th>
-            <th>url</th>
-            <th>方法</th>
-            <th>说明</th>
-            <th>编辑</th>
-            <th>删除</th>
-        </tr>
+            <tr>
+                <th>#</th>
+                <th>名称</th>
+                <th>url</th>
+                <th>方法</th>
+                <th>说明</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
         </thead>
         <tbody>
-        {% for index, rest in restDatas %}
-        <tr>
-            <td>{{loop.index}}</td>
-            <td>{{rest.title}}</td>
-            <td>{{rest.urlPath}}</td>
-            <td>{{rest.method}}</td>
-            <td>{{rest.remark}}</td>
-            <td>
-                <a href="/rest/add?id={{rest._id + ''}}" class="fui-new text-primary"></a>
-            </td>
-            <td>
-                <a href="/rest/delete?id={{rest._id + ''}}" class="fui-trash text-danger"></a>
-            </td>
+            {% for index, rest in restDatas %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{rest.title}}</td>
+                <td>
+                    {% if rest.urlPath %}
+                    <a href="http://192.168.26.199:3001{{rest.urlPath}}" target="_blank">http://192.168.26.199:3001{{rest.urlPath}}</a> {% endif %}
+                </td>
+                <td>{{rest.method}}</td>
+                <td>{{rest.remark}}</td>
+                <td>
+                    <a href="/rest/add?id={{rest._id + ''}}" class="fui-new text-primary"></a>
+                </td>
+                <td>
+                    <a href="/rest/delete?id={{rest._id + ''}}" class="fui-trash text-danger"></a>
+                </td>
 
-        </tr>
-        {% endfor %}
+            </tr>
+            {% endfor %}
 
         </tbody>
     </table>
@@ -42,5 +43,3 @@
 </div>
 
 {% endblock content %}
-
-
