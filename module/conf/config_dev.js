@@ -1,7 +1,7 @@
 module.exports = {
     mongoDb: {
         db: 'saiman_rest',
-        host: '127.0.0.1',
+        host: '192.168.26.199',
         port: 27017,
         username: 'saiman',
         password: 'saimankeji',
@@ -12,7 +12,7 @@ module.exports = {
     },
     redisDb: {
         session: {
-            host: '127.0.0.1',
+            host: '192.168.26.199',
             port: 6379,
             db: 1,
             ttl: 60 * 60 * 24, // second
