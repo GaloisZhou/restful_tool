@@ -98,7 +98,7 @@ function processDemo(str) {
         str = str.replace(/[\\\r\\\n]/g, '');
         // str = JSON.stringify(JSON.parse(str));
         try {
-            str = JSON.stringify(JSON.parse(str));
+            str = JSON.stringify(JSON.parse(str), null, '\t');
         } catch (e) {
             throw ('数据不是JSON: ' + str);
         }

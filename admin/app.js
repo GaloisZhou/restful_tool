@@ -6,8 +6,8 @@ var app = require('koa')()
     , mongoUtil = require('../module/utils/mongoDbUtils');
 
 
-global.config = require('../module/conf/config');
-// global.config = require('../module/conf/config_dev');
+// global.config = require('../module/conf/config');
+global.config = require('../module/conf/config_dev');
 
 var KoaRoute = require('../module/utils/KoaRoute'),
     _router = new KoaRoute(app);
