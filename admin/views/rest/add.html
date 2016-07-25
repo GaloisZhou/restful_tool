@@ -1,5 +1,9 @@
 {% extends '../layout.html' %} {% block content %}
 
+<script>
+    window.fn = {};
+</script>
+
 <div class="container">
     <h4>添加接口</h4>
     <hr>
@@ -22,7 +26,20 @@
         </div>
 
         <div class="form-group">
-            <label class="col-md-2">url</label>
+            <label class="col-md-2">wiki url</label>
+            <div class="col-md-10">
+                <input class="form-control" type="url" name="wikiUrl" rows="5" value="{{restData.wikiUrl}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">url 定义</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="urlPathDefine" value="{{restData.urlPathDefine}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2">url Demo (不带"?")</label>
             <div class="col-md-10">
                 <input class="form-control" type="text" name="urlPath" value="{{restData.urlPath}}">
             </div>
@@ -41,7 +58,40 @@
         <div class="form-group">
             <label class="col-md-2">请求参数</label>
             <div class="col-md-10">
-                请求参数设置（现在不想做）
+                <table class="table" id="requestParamsTable">
+                    <tr>
+                        <th>#</th>
+                        <th>参数</th>
+                        <th>是否必须</th>
+                        <th>类型</th>
+                        <th>说明</th>
+                        <th>
+                            <a onclick="fn.addReqParamLine()" class="fui-plus text-success"></a>
+                        </th>
+                    </tr>
+
+                    {% for reqParamKey, reqParamValue in restData.requestParams %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>
+                            <input class="form-control" type="text" name="requestParams.key" value="{{reqParamKey}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="requestParams.required"
+                                   value="{{reqParamValue.required}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="requestParams.type"
+                                   value="{{reqParamValue.type}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="requestParams.remark"
+                                   value="{{reqParamValue.remark}}">
+                        </td>
+                        <td><a onclick="fn.removeLine(this)" class="fui-trash text-danger"></a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
 
@@ -52,7 +102,39 @@
         <div class="form-group">
             <label class="col-md-2">返回参数</label>
             <div class="col-md-10">
-                返回参数设置（现在不想做）
+                <table class="table" id="responseParamsTable">
+                    <tr>
+                        <th>#</th>
+                        <th>参数</th>
+                        <th>是否必须</th>
+                        <th>类型</th>
+                        <th>说明</th>
+                        <th>
+                            <a onclick="fn.addResParamLine()" class="fui-plus text-success"></a>
+                        </th>
+                    </tr>
+
+                    {% for resParamKey, resParamValue in restData.responseData %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td><input class="form-control" type="text" name="responseData.key" value="{{resParamKey}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="responseData.required"
+                                   value="{{resParamValue.required}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="responseData.type"
+                                   value="{{resParamValue.type}}">
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="responseData.remark"
+                                   value="{{resParamValue.remark}}">
+                        </td>
+                        <td><a href="" class="fui-trash text-danger"></a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
 
@@ -122,6 +204,18 @@
                 console.log(errMsg);
                 $('#' + errAlertId).html('<div class="alert alert-danger">\n    <button type="button" class="close fui-cross" data-dismiss="alert"></button>\n    ' + errMsg + '\n</div>');
             }
+        }
+
+        fn.addReqParamLine = function () {
+            $('#requestParamsTable').append('<tr>\n    <td></td>\n    <td><input class="form-control" type="text" name="requestParams.key"></td>\n    <td><input class="form-control" type="text" name="requestParams.required"></td>\n    <td><input class="form-control" type="text" name="requestParams.type"></td>\n    <td><input class="form-control" type="text" name="requestParams.remark"></td>\n    <td><a class="fui-trash text-danger"></a></td>\n</tr>')
+        }
+
+        fn.addResParamLine = function () {
+            $('#responseParamsTable').append('<tr>\n    <td></td>\n    <td><input class="form-control" type="text" name="responseData.key"></td>\n    <td><input class="form-control" type="text" name="responseData.required"></td>\n    <td><input class="form-control" type="text" name="responseData.type"></td>\n    <td><input class="form-control" type="text" name="responseData.remark"></td>\n    <td><a class="fui-trash text-danger"></a></td>\n</tr>')
+        }
+
+        fn.removeLine = function (ele) {
+            $(ele).parents('tr').remove()
         }
     });
 </script>

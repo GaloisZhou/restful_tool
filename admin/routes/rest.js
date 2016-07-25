@@ -61,7 +61,7 @@ function* add() {
             }
             yield this.render('rest/add', {methods: _methods, restData: _body, errMsg: _result.errMsg || ''});
         }
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         yield this.render('rest/add', {methods: _methods, restData: _body, errMsg: e});
     }

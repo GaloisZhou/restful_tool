@@ -10,7 +10,8 @@ let _demo = {
     title: '', // 接口名称
     remark: '', // 接口说明
 
-    urlPath: '',
+    wikiUrl: '', // wiki 地址
+    urlPathDefine: '',
     method: '', // GET, POST, PUT, DELETE
     requestParams: {
         'key': {
@@ -25,6 +26,7 @@ let _demo = {
             remark: '', // 说明
         }
     },
+    urlPath: '', // demo
     requestDemo: '',
     responseDemo: '',
 

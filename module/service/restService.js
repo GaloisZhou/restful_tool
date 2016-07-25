@@ -26,8 +26,8 @@ service.findById = function*(id) {
 
 service.find = function*(query, sort, skip, limit, fields) {
     sort = sort || {
-        create_timestamp: 1
-    };
+            create_timestamp: 1
+        };
     query = query || {};
     query.isRemoved = false;
     return yield restDao.find(query, sort, skip, limit, fields);
@@ -40,6 +40,10 @@ service.saveOrUpdateById = function*(restData) {
     };
     let _id = restData._id || '';
     delete restData._id;
+
+    if (restData.urlPath) { // 去掉 url demo 中的?
+        restData.urlPath = restData.urlPath.split('?')[0];
+    }
     // ------------- 不能重复
     let _restQuery = {
         urlPath: restData.urlPath,
@@ -59,6 +63,51 @@ service.saveOrUpdateById = function*(restData) {
     // ------------- 不能重复 end
     restData.requestDemo = processDemo(restData.requestDemo);
     restData.responseDemo = processDemo(restData.responseDemo);
+
+
+    // 处理 requestParams
+    let _requestParams = {};
+    if (restData.requestParams && restData.requestParams.key) {
+        if (restData.requestParams.key instanceof Array) {
+            restData.requestParams.key.forEach((rp, ri) => {
+                _requestParams[rp] = {
+                    required: isTrue(restData.requestParams.required[ri]) ? 1 : 0,
+                    type: restData.requestParams.type[ri] || '',
+                    remark: restData.requestParams.remark[ri] || '',
+                };
+            });
+        } else {
+            _requestParams[restData.requestParams.key] = {
+                required: isTrue(restData.requestParams.required) ? 1 : 0,
+                type: restData.requestParams.type || '',
+                remark: restData.requestParams.remark || '',
+            };
+        }
+    }
+    restData.requestParams = _requestParams;
+
+    // 处理 responseData
+    let _responseData = {};
+    if (restData.responseData && restData.responseData.key) {
+        if (restData.responseData.key instanceof Array) {
+            restData.responseData.key.forEach((rp, ri) => {
+                _responseData[rp] = {
+                    required: isTrue(restData.responseData.required[ri]) ? 1 : 0,
+                    type: restData.responseData.type[ri] || '',
+                    remark: restData.responseData.remark[ri] || '',
+                };
+            });
+        } else {
+            _responseData[restData.responseData.key] = {
+                required: isTrue(restData.responseData.required) ? 1 : 0,
+                type: restData.responseData.type || '',
+                remark: restData.responseData.remark || '',
+            };
+        }
+    }
+    restData.responseData = _responseData;
+
+    console.log('restData: ', restData);
 
     if (_id) {
         _result._id = _id;
@@ -87,8 +136,6 @@ service.removeById = function*(id) {
 };
 
 
-
-
 // ----------------------------------------------
 function processDemo(str) {
 
@@ -107,4 +154,12 @@ function processDemo(str) {
     console.log('end-------->>>>', typeof str, str);
 
     return str;
+}
+
+function isTrue(value) {
+    if (value != 0 && value) {
+        return true;
+    } else {
+        return false;
+    }
 }
