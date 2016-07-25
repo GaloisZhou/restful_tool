@@ -3,10 +3,11 @@ var app = require('koa')()
     , views = require('koa-views')
     , onerror = require('koa-onerror')
     , session = require('koa-session-redis')
-    , config = require('../module/conf/config')
     , mongoUtil = require('../module/utils/mongoDbUtils');
 
-global.config = config;
+
+global.config = require('../module/conf/config');
+// global.config = require('../module/conf/config_dev');
 
 var KoaRoute = require('../module/utils/KoaRoute'),
     _router = new KoaRoute(app);

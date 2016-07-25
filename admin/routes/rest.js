@@ -70,7 +70,7 @@ function* add() {
 function* listPage() {
     let _restDatas = yield restService.find();
     console.log('_restDatas', _restDatas);
-    yield this.render('rest/list', {restDatas: _restDatas});
+    yield this.render('rest/list', {restDatas: _restDatas, serverDomain: config.domain.server});
 }
 
 function* deleteDest() {

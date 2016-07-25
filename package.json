@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "debug": "*",
     "co": "^4.6.0",
     "co-body": "^4.2.0",
     "koa": "^1.2.0",

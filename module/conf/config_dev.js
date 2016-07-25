@@ -16,8 +16,11 @@ module.exports = {
             port: 6379,
             db: 1,
             ttl: 60 * 60 * 24, // second
-            // password: 'saimankeji',
+            password: 'saimankeji',
             key: 'saiman$#'
         }
     },
+    domain: {
+        server: '192.168.26.199:3001'
+    }
 };

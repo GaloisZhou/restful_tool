@@ -16,3 +16,4 @@ let _demo = {
 
 
 // db.admin_user.insert({ username: 'galois', password: 'galois' });
+// db.admin_user.insert({ username: 'saiman', password: 'saiman123456' });

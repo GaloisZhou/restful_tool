@@ -20,4 +20,7 @@ module.exports = {
             key: 'saiman$#'
         }
     },
+    domain: {
+        server: 'rs.bishe.com'
+    }
 };
