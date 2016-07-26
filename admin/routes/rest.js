@@ -31,6 +31,7 @@ module.exports = [
     route.post(routePath('/add/data'), addData),
 
     route.get(routePath('/list'), listPage),
+    route.get(routePath('/list/data'), listPageData),
     route.get(routePath('/delete'), deleteRest),
 ];
 
@@ -73,10 +74,19 @@ function* addData() {
 }
 
 function* listPage() {
-    let _restDatas = yield restService.find();
-    let _projects = yield projectService.findProject();
-    let _modules = yield projectService.findModule();
-    // console.log('_restDatas', _restDatas);
+    yield this.render('rest/list', {});
+}
+
+function* listPageData() {
+    let _result = yield {
+        restDatas: restService.find(),
+        projects: projectService.findProject(),
+        modules: projectService.findModule(),
+    };
+    let _restDatas = _result.restDatas;
+    let _projects = _result.projects;
+    let _modules = _result.modules;
+    
     let _restObj = {};
     if (_restDatas) {
         _restDatas.forEach(rest => {
@@ -92,12 +102,12 @@ function* listPage() {
             _moduleObj[module.projectId].push(module);
         });
     }
-    yield this.render('rest/list', {
+    this.body = {
         projects: _projects,
         moduleObj: _moduleObj,
         restObj: _restObj,
         serverDomain: config.domain.server
-    });
+    };
 }
 
 function* deleteRest() {

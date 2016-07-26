@@ -56,9 +56,7 @@
         <div class="form-group">
             <label class="col-md-2"><a class="fui-star text-danger"></a>方法</label>
             <div class="col-md-10">
-                <select class="form-control" ng-model="restData.method">
-                    <option ng-repeat="m in methods" value="{{m}}">{{m}}</option>
-                </select>
+                <select class="form-control" ng-model="restData.method" ng-options="m as m for m in methods"></select>
             </div>
         </div>
 
@@ -72,15 +70,21 @@
                         <th>是否必须</th>
                         <th>类型</th>
                         <th>说明</th>
-                        <th>
-                            <!--<a ng-click="addReqParamLine()" class="fui-plus text-success"></a>-->
-                        </th>
+                        <th><a ng-click="addReqParamLine()" class="fui-plus text-success"></a></th>
                     </tr>
 
                     <tr ng-repeat="reqParam in restData.requestParams">
                         <td>{{$index +1}}</td>
                         <td><input class="form-control" type="text" ng-model="reqParam.key"></td>
-                        <td><input class="form-control" type="text" ng-model="reqParam.required"></td>
+                        <td>
+                            <label class="checkbox">
+                                <input type="checkbox" data-toggle="checkbox" class="custom-checkbox"
+                                       ng-model="reqParam.required">
+                                <span class="icons">
+                                    <span class="icon-unchecked"></span><span class="icon-checked"></span>
+                                </span>
+                            </label>
+                        </td>
                         <td><input class="form-control" type="text" ng-model="reqParam.type"></td>
                         <td><input class="form-control" type="text" ng-model="reqParam.remark"></td>
                         <td><a ng-click="removeReqParamLine($index)" class="fui-trash text-danger"></a></td>
@@ -103,13 +107,21 @@
                         <th>是否必须</th>
                         <th>类型</th>
                         <th>说明</th>
-                        <!--<th><a ng-click="addResParamLine()" class="fui-plus text-success"></a></th>-->
+                        <th><a ng-click="addResParamLine()" class="fui-plus text-success"></a></th>
                     </tr>
 
                     <tr ng-repeat="resParam in restData.responseData">
                         <td>{{$index + 1}}</td>
                         <td><input class="form-control" type="text" ng-model="resParam.key"></td>
-                        <td><input class="form-control" type="text" ng-model="resParam.required"></td>
+                        <td>
+                            <label class="checkbox">
+                                <input type="checkbox" data-toggle="checkbox" class="custom-checkbox"
+                                       ng-model="resParam.required">
+                                <span class="icons">
+                                    <span class="icon-unchecked"></span><span class="icon-checked"></span>
+                                </span>
+                            </label>
+                        </td>
                         <td><input class="form-control" type="text" ng-model="resParam.type"></td>
                         <td><input class="form-control" type="text" ng-model="resParam.remark"></td>
                         <td><a ng-click="removeResParamLine($index)" class="fui-trash text-danger"></a></td>
@@ -171,7 +183,7 @@
         $scope.error = {};
 
         $http.get('/rest/add/data?id=' + $scope.id).success(function (data) {
-            console.log(data);
+//            console.log(data);
             $scope.restData = data.restData || {};
             $scope.methods = data.methods;
             $scope.projects = data.projects || [];
@@ -234,6 +246,8 @@
                 alert('返回数据(JSON) 不能为空')
             } else {
                 processing = true;
+                console.log($scope.restData);
+//                return;
                 $http.post('/rest/add/data', $scope.restData).success(function (data) {
                     if (data.ok) {
                         location.href = '/rest/list';

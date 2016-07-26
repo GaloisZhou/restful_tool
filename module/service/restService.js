@@ -67,49 +67,52 @@ service.saveOrUpdateById = function*(restData) {
     restData.responseDemo = processDemo(restData.responseDemo);
 
 
-    // 处理 requestParams
-    let _requestParams = {};
-    if (restData.requestParams && restData.requestParams.key) {
-        if (restData.requestParams.key instanceof Array) {
-            restData.requestParams.key.forEach((rp, ri) => {
-                _requestParams[rp] = {
-                    required: isTrue(restData.requestParams.required[ri]) ? 1 : 0,
-                    type: restData.requestParams.type[ri] || '',
-                    remark: restData.requestParams.remark[ri] || '',
-                };
-            });
-        } else {
-            _requestParams[restData.requestParams.key] = {
-                required: isTrue(restData.requestParams.required) ? 1 : 0,
-                type: restData.requestParams.type || '',
-                remark: restData.requestParams.remark || '',
-            };
-        }
-    }
-    restData.requestParams = _requestParams;
+    // // 处理 requestParams
+    // let _requestParams = {};
+    // if (restData.requestParams && restData.requestParams.key) {
+    //     if (restData.requestParams.key instanceof Array) {
+    //         restData.requestParams.key.forEach((rp, ri) => {
+    //             _requestParams[rp] = {
+    //                 required: isTrue(restData.requestParams.required[ri]) ? 1 : 0,
+    //                 type: restData.requestParams.type[ri] || '',
+    //                 remark: restData.requestParams.remark[ri] || '',
+    //             };
+    //         });
+    //     } else {
+    //         _requestParams[restData.requestParams.key] = {
+    //             required: isTrue(restData.requestParams.required) ? 1 : 0,
+    //             type: restData.requestParams.type || '',
+    //             remark: restData.requestParams.remark || '',
+    //         };
+    //     }
+    // }
+    // restData.requestParams = _requestParams;
+    //
+    // // 处理 responseData
+    // let _responseData = {};
+    // if (restData.responseData && restData.responseData.key) {
+    //     if (restData.responseData.key instanceof Array) {
+    //         restData.responseData.key.forEach((rp, ri) => {
+    //             _responseData[rp] = {
+    //                 required: isTrue(restData.responseData.required[ri]) ? 1 : 0,
+    //                 type: restData.responseData.type[ri] || '',
+    //                 remark: restData.responseData.remark[ri] || '',
+    //             };
+    //         });
+    //     } else {
+    //         _responseData[restData.responseData.key] = {
+    //             required: isTrue(restData.responseData.required) ? 1 : 0,
+    //             type: restData.responseData.type || '',
+    //             remark: restData.responseData.remark || '',
+    //         };
+    //     }
+    // }
+    // restData.responseData = _responseData;
 
-    // 处理 responseData
-    let _responseData = {};
-    if (restData.responseData && restData.responseData.key) {
-        if (restData.responseData.key instanceof Array) {
-            restData.responseData.key.forEach((rp, ri) => {
-                _responseData[rp] = {
-                    required: isTrue(restData.responseData.required[ri]) ? 1 : 0,
-                    type: restData.responseData.type[ri] || '',
-                    remark: restData.responseData.remark[ri] || '',
-                };
-            });
-        } else {
-            _responseData[restData.responseData.key] = {
-                required: isTrue(restData.responseData.required) ? 1 : 0,
-                type: restData.responseData.type || '',
-                remark: restData.responseData.remark || '',
-            };
-        }
-    }
-    restData.responseData = _responseData;
+    // restData.requestParams = '';
+    // restData.responseData = '';
 
-    // console.log('restData: ', restData);
+    console.log('###########save or update restData: ', restData);
 
     if (_id) {
         _result._id = _id;
