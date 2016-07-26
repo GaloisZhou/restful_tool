@@ -47,6 +47,7 @@ function* processHttpRequest() {
     let _restQuery = {
         urlPath: _urlPath,
         method: _method,
+        projectId: _query.pid || '',
         isRemoved: false,
     };
 
@@ -56,7 +57,7 @@ function* processHttpRequest() {
     try {
         _responseDemo = _responseDemo ? JSON.parse(_responseDemo) : '';
         this.body = _responseDemo;
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         this.body = e;
     }

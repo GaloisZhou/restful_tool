@@ -8,6 +8,8 @@ module.exports = {
         collections: {
             adminUser: 'admin_user',
             restApi: 'rest_api',
+            project: 'project',
+            project_module: 'project_module',
         }
     },
     redisDb: {

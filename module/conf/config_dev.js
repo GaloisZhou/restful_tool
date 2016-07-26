@@ -8,6 +8,8 @@ module.exports = {
         collections: {
             adminUser: 'admin_user',
             restApi: 'rest_api',
+            project: 'project',
+            project_module: 'project_module',
         }
     },
     redisDb: {
@@ -21,6 +23,6 @@ module.exports = {
         }
     },
     domain: {
-        server: '192.168.26.199:3001'
+        server: 'localhost:3001'
     }
 };

@@ -1,0 +1,46 @@
+{% extends '../layout.html' %} {% block content %}
+
+<div class="container" ng-controller="projectCtrl">
+    <h4>接口列表</h4>
+    <a href="/project/add" class="btn btn-embossed btn-primary">
+        添加
+    </a>
+
+    <hr>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>说明</th>
+            <th>编辑</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pi, pro in projects %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>
+                <a href="/project/detail?id={{pro._id + ''}}">{{pro.name}}</a>
+            </td>
+            <td>{{pro.remark}}</td>
+            <td>
+                <a href="/project/add?id={{pro._id + ''}}" class="fui-new text-primary"></a>
+            </td>
+            <td>
+                <a href="/project/delete?id={{pro._id + ''}}" class="fui-trash text-danger"></a>
+            </td>
+        </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}
+
+

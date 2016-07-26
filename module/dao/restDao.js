@@ -7,6 +7,9 @@ module.exports = new Dao(config.mongoDb.collections.restApi, db);
 let _demo = {
     _id: '',
 
+    projectId: '',
+    moduleId: '',
+
     title: '', // 接口名称
     remark: '', // 接口说明
 
@@ -14,17 +17,15 @@ let _demo = {
     urlPathDefine: '',
     method: '', // GET, POST, PUT, DELETE
     requestParams: {
-        'key': {
-            required: true, // 是否是必须的
-            type: 'number', // 类型
-            remark: '', // 说明
-        }
+        key: '',
+        required: true, // 是否是必须的
+        type: 'number', // 类型
+        remark: '', // 说明
     },
     responseData: {
-        'key': {
-            type: 'number', // 类型
-            remark: '', // 说明
-        }
+        key: '',
+        type: 'number', // 类型
+        remark: '', // 说明
     },
     urlPath: '', // demo
     requestDemo: '',

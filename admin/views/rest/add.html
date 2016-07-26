@@ -1,56 +1,63 @@
 {% extends '../layout.html' %} {% block content %}
 
-<script>
-    window.fn = {};
-</script>
-
-<div class="container">
+<div class="container" ng-controller="RestAddCtrl">
     <h4>添加接口</h4>
     <hr>
 
-    <form class="form-horizontal" role="form" action="/rest/add" method="post">
+    {% raw %}
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label class="col-md-2">wiki url</label>
+            <div class="col-md-10">
+                <input class="form-control" type="url" rows="5" ng-model="restData.wikiUrl">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2"><a class="fui-star text-danger"></a>项目-模块</label>
+            <div class="col-md-5">
+                <select class="form-control" ng-model="restData.projectId"
+                        ng-options="p._id as p.name for p in projects"></select>
+            </div>
+            <div class="col-md-5">
+                <select class="form-control" ng-model="restData.moduleId"
+                        ng-options="m._id as m.name for m in modules[restData.projectId]"></select>
+            </div>
+        </div>
 
         <p><strong>请求方法</strong></p>
         <div class="form-group">
             <label class="col-md-2">接口名称</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" name="title" value="{{restData.title}}">
+                <input class="form-control" type="text" ng-model="restData.title">
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-2">接口说明</label>
             <div class="col-md-10">
-                <textarea class="form-control" name="remark" rows="5">{{restData.remark}}</textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-2">wiki url</label>
-            <div class="col-md-10">
-                <input class="form-control" type="url" name="wikiUrl" rows="5" value="{{restData.wikiUrl}}">
+                <textarea class="form-control" rows="5" ng-model="restData.remark"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-2">url 定义</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" name="urlPathDefine" value="{{restData.urlPathDefine}}">
+                <input class="form-control" type="text" ng-model="restData.urlPathDefine">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2">url Demo (不带"?")</label>
+            <label class="col-md-2"><a class="fui-star text-danger"></a>url Demo (不带"?")</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" name="urlPath" value="{{restData.urlPath}}">
+                <input class="form-control" type="text" ng-model="restData.urlPath">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2">方法</label>
+            <label class="col-md-2"><a class="fui-star text-danger"></a>方法</label>
             <div class="col-md-10">
-                <select class="form-control" name="method">
-                    {% for m in methods %}
-                    <option value="{{m}}" {% if m== restData.method %}selected{% endif %}>{{m}}</option>
-                    {% endfor %}
+                <select class="form-control" ng-model="restData.method">
+                    <option ng-repeat="m in methods" value="{{m}}">{{m}}</option>
                 </select>
             </div>
         </div>
@@ -66,31 +73,18 @@
                         <th>类型</th>
                         <th>说明</th>
                         <th>
-                            <a onclick="fn.addReqParamLine()" class="fui-plus text-success"></a>
+                            <!--<a ng-click="addReqParamLine()" class="fui-plus text-success"></a>-->
                         </th>
                     </tr>
 
-                    {% for reqParamKey, reqParamValue in restData.requestParams %}
-                    <tr>
-                        <td>{{loop.index}}</td>
-                        <td>
-                            <input class="form-control" type="text" name="requestParams.key" value="{{reqParamKey}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="requestParams.required"
-                                   value="{{reqParamValue.required}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="requestParams.type"
-                                   value="{{reqParamValue.type}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="requestParams.remark"
-                                   value="{{reqParamValue.remark}}">
-                        </td>
-                        <td><a onclick="fn.removeLine(this)" class="fui-trash text-danger"></a></td>
+                    <tr ng-repeat="reqParam in restData.requestParams">
+                        <td>{{$index +1}}</td>
+                        <td><input class="form-control" type="text" ng-model="reqParam.key"></td>
+                        <td><input class="form-control" type="text" ng-model="reqParam.required"></td>
+                        <td><input class="form-control" type="text" ng-model="reqParam.type"></td>
+                        <td><input class="form-control" type="text" ng-model="reqParam.remark"></td>
+                        <td><a ng-click="removeReqParamLine($index)" class="fui-trash text-danger"></a></td>
                     </tr>
-                    {% endfor %}
                 </table>
             </div>
         </div>
@@ -109,31 +103,17 @@
                         <th>是否必须</th>
                         <th>类型</th>
                         <th>说明</th>
-                        <th>
-                            <a onclick="fn.addResParamLine()" class="fui-plus text-success"></a>
-                        </th>
+                        <!--<th><a ng-click="addResParamLine()" class="fui-plus text-success"></a></th>-->
                     </tr>
 
-                    {% for resParamKey, resParamValue in restData.responseData %}
-                    <tr>
-                        <td>{{loop.index}}</td>
-                        <td><input class="form-control" type="text" name="responseData.key" value="{{resParamKey}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="responseData.required"
-                                   value="{{resParamValue.required}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="responseData.type"
-                                   value="{{resParamValue.type}}">
-                        </td>
-                        <td>
-                            <input class="form-control" type="text" name="responseData.remark"
-                                   value="{{resParamValue.remark}}">
-                        </td>
-                        <td><a href="" class="fui-trash text-danger"></a></td>
+                    <tr ng-repeat="resParam in restData.responseData">
+                        <td>{{$index + 1}}</td>
+                        <td><input class="form-control" type="text" ng-model="resParam.key"></td>
+                        <td><input class="form-control" type="text" ng-model="resParam.required"></td>
+                        <td><input class="form-control" type="text" ng-model="resParam.type"></td>
+                        <td><input class="form-control" type="text" ng-model="resParam.remark"></td>
+                        <td><a ng-click="removeResParamLine($index)" class="fui-trash text-danger"></a></td>
                     </tr>
-                    {% endfor %}
                 </table>
             </div>
         </div>
@@ -143,30 +123,33 @@
         <div class="form-group">
             <label class="col-md-2">请求数据(JSON)</label>
             <div class="col-md-10">
-                <textarea class="form-control" name="requestDemo" id="requestDemo"
-                          rows="10">{{restData.requestDemo}}</textarea>
-                <div id="requestDemoErrMsg"></div>
+                <textarea class="form-control" rows="10" ng-model="restData.requestDemo"
+                          ng-blur="checkRequestDemo()"></textarea>
+                <div class="alert alert-danger" ng-show="error.requestDemo">
+                    <span ng-bind="error.requestDemo"></span>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-md-2">返回数据(JSON)</label>
+            <label class="col-md-2"><a class="fui-star text-danger"></a>返回数据(JSON)</label>
             <div class="col-md-10">
-                <textarea class="form-control" name="responseDemo" id="responseDemo"
-                          rows="10">{{restData.responseDemo}}</textarea>
-                <div id="responseDemoErrMsg"></div>
+                <textarea class="form-control" rows="10" ng-model="restData.responseDemo"
+                          ng-blur="checkResponseDemo()"></textarea>
+                <div class="alert alert-danger" ng-show="error.responseDemo">
+                    <span ng-bind="error.responseDemo"></span>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="col-md-2"></label>
             <div class="col-md-10">
-                {% if restData._id %}
-                <input type="hidden" name="_id" value="{{restData._id + ''}}"> {% endif %}
-                <input type="submit" class="btn btn-primary" var="保存"/>
+                <input class="btn btn-primary" ng-click="save()" value="保存"/>
             </div>
         </div>
     </form>
+    {% endraw %}
 </div>
 
 {% if errMsg %}
@@ -179,44 +162,89 @@
 
 {% block footer %}
 {% parent %}
+<script src="http://static.eppqq.com/ui_lib/angular-1.2.27/angular.min.js"></script>
 <script>
-    $(document).ready(function () {
+    var restApp = angular.module("restApp", []);
 
-        $('#requestDemo').on('blur', function (event) {
-            checkJson('requestDemo', 'requestDemoErrMsg');
+    restApp.controller('RestAddCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.id = '{{id}}';
+        $scope.error = {};
+
+        $http.get('/rest/add/data?id=' + $scope.id).success(function (data) {
+            console.log(data);
+            $scope.restData = data.restData || {};
+            $scope.methods = data.methods;
+            $scope.projects = data.projects || [];
+            $scope.modules = data.modules || {};
         });
 
-        $('#responseDemo').on('blur', function (event) {
-            checkJson('responseDemo', 'responseDemoErrMsg');
-        });
+        $scope.addReqParamLine = function () {
+            $scope.restData.requestParams = $scope.restData.requestParams || [];
+            $scope.restData.requestParams.push({});
+        };
 
-        function checkJson(textareaId, errAlertId) {
-            var responseDemo = $('#' + textareaId);
-            var responseDemoText = responseDemo.val();
-            try {
-                responseDemoText = JSON.parse(responseDemoText);
-                responseDemo.val(JSON.stringify(responseDemoText, null, '\t'));
+        $scope.removeReqParamLine = function (index) {
+            $scope.restData.requestParams.splice(index, 1)
+        };
 
-                $('#' + errAlertId).html('');
-            } catch (e) {
-                var errMsg = e.message;
-                errMsg = 'JSON 格式不对, "' + errMsg + '"';
-                console.log(errMsg);
-                $('#' + errAlertId).html('<div class="alert alert-danger">\n    <button type="button" class="close fui-cross" data-dismiss="alert"></button>\n    ' + errMsg + '\n</div>');
+        $scope.addResParamLine = function () {
+            $scope.restData.responseData = $scope.restData.responseData || [];
+            $scope.restData.responseData.push({});
+        };
+
+        $scope.removeResParamLine = function (index) {
+            $scope.restData.responseData.splice(index, 1)
+        };
+
+        $scope.checkRequestDemo = function () {
+            if ($scope.restData.requestDemo) {
+                try {
+                    $scope.restData.requestDemo = JSON.stringify(JSON.parse($scope.restData.requestDemo), null, '\t');
+                    $scope.error.requestDemo = '';
+                } catch (e) {
+                    console.error(e);
+                    $scope.error.requestDemo = 'JSON 格式不对: ' + e.message;
+                }
             }
-        }
+        };
 
-        fn.addReqParamLine = function () {
-            $('#requestParamsTable').append('<tr>\n    <td></td>\n    <td><input class="form-control" type="text" name="requestParams.key"></td>\n    <td><input class="form-control" type="text" name="requestParams.required"></td>\n    <td><input class="form-control" type="text" name="requestParams.type"></td>\n    <td><input class="form-control" type="text" name="requestParams.remark"></td>\n    <td><a class="fui-trash text-danger"></a></td>\n</tr>')
-        }
+        $scope.checkResponseDemo = function () {
+            if ($scope.restData.responseDemo) {
+                try {
+                    $scope.restData.responseDemo = JSON.stringify(JSON.parse($scope.restData.responseDemo), null, '\t');
+                    $scope.error.responseDemo = '';
+                } catch (e) {
+                    $scope.error.responseDemo = 'JSON 格式不对: ' + e.message;
+                }
+            }
+        };
 
-        fn.addResParamLine = function () {
-            $('#responseParamsTable').append('<tr>\n    <td></td>\n    <td><input class="form-control" type="text" name="responseData.key"></td>\n    <td><input class="form-control" type="text" name="responseData.required"></td>\n    <td><input class="form-control" type="text" name="responseData.type"></td>\n    <td><input class="form-control" type="text" name="responseData.remark"></td>\n    <td><a class="fui-trash text-danger"></a></td>\n</tr>')
-        }
+        var processing = false;
+        $scope.save = function () {
+            if (processing) {
+                return;
+            }
+            if (!$scope.restData.urlPath) {
+                alert('url Demo 不能为空')
+            } else if (!$scope.restData.method) {
+                alert('请求方法 不能为空')
+            } else if (!$scope.restData.projectId) {
+                alert('项目 不能为空')
+            } else if (!$scope.restData.responseDemo) {
+                alert('返回数据(JSON) 不能为空')
+            } else {
+                processing = true;
+                $http.post('/rest/add/data', $scope.restData).success(function (data) {
+                    if (data.ok) {
+                        location.href = '/rest/list';
+                    } else {
+                        processing = false;
+                        alert(data.errMsg);
+                    }
+                });
+            }
+        };
 
-        fn.removeLine = function (ele) {
-            $(ele).parents('tr').remove()
-        }
-    });
+    }]);
 </script>
 {% endblock footer %}

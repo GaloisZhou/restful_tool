@@ -4,6 +4,11 @@
     <h4>接口列表</h4>
     <hr>
 
+    {% for pi, project in projects %}
+    <h4>项目: {{project.name}}</h4>
+    {% for mi, module in moduleObj[project._id + ''] %}
+    <h6>模块: {{module.name}}</h6>
+
     <table class="table">
         <thead>
         <tr>
@@ -18,13 +23,13 @@
         </tr>
         </thead>
         <tbody>
-        {% for index, rest in restDatas %}
+        {% for index, rest in restObj[project._id + ''][module._id + ''] %}
         <tr>
             <td>{{loop.index}}</td>
             <td>{{rest.title}}</td>
             <td>
                 {% if rest.urlPath %}
-                <a href="http://{{serverDomain}}{{rest.urlPath}}" target="_blank">http://{{serverDomain}}{{rest.urlPath}}</a>
+                <a href="http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}" target="_blank">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
                 {% endif %}
             </td>
             <td>{{rest.method}}</td>
@@ -46,7 +51,9 @@
 
         </tbody>
     </table>
-
+    {% endfor %}
+    <hr>
+    {% endfor %}
 </div>
 
 {% endblock content %}

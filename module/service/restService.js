@@ -36,7 +36,8 @@ service.find = function*(query, sort, skip, limit, fields) {
 service.saveOrUpdateById = function*(restData) {
     let _result = {
         ok: false,
-        _id: ''
+        _id: '',
+        errMsg: '',
     };
     let _id = restData._id || '';
     delete restData._id;
@@ -46,6 +47,7 @@ service.saveOrUpdateById = function*(restData) {
     }
     // ------------- 不能重复
     let _restQuery = {
+        projectId: restData.projectId,
         urlPath: restData.urlPath,
         method: restData.method,
         isRemoved: false
@@ -55,8 +57,8 @@ service.saveOrUpdateById = function*(restData) {
 
     if (_existedRestData && _existedRestData._id + '' != _id + '') {
         _result.ok = false;
-        _result.errMsg = '已经存在，url + 方法 不能重复!';
-        console.error('已经存在，url + 方法 不能重复!');
+        _result.errMsg = '已经存在，项目 + url demo + 方法 不能重复!';
+        console.error('已经存在，项目 + url demo + 方法 不能重复!');
         return _result;
     }
 
@@ -107,7 +109,7 @@ service.saveOrUpdateById = function*(restData) {
     }
     restData.responseData = _responseData;
 
-    console.log('restData: ', restData);
+    // console.log('restData: ', restData);
 
     if (_id) {
         _result._id = _id;

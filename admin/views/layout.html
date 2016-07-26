@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="restApp">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,14 +29,10 @@
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-            <!--<li><a href="#">接口管理</a></li>-->
             <li class="dropdown active">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">接口管理 <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">项目 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/rest/add">添加接口</a></li>
-                    <li><a href="/rest/list">接口列表</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header">接口测试</li>
+                    <li><a href="/project/list">项目列表</a></li>
                 </ul>
             </li>
 

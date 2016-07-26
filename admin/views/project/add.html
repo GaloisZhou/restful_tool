@@ -1,0 +1,43 @@
+{% extends '../layout.html' %} {% block content %}
+
+<div class="container">
+    <h4>添加项目</h4>
+    <hr>
+
+    <form class="form-horizontal" role="form" action="/project/add" method="post">
+
+        <div class="form-group">
+            <label class="col-md-2">项目名称</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="name" value="{{projectData.name}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">项目说明</label>
+            <div class="col-md-10">
+                <textarea class="form-control" name="remark" rows="5">{{projectData.remark}}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2"></label>
+            <div class="col-md-10">
+                {% if projectData._id %}
+                <input type="hidden" name="_id" value="{{projectData._id + ''}}">
+                {% endif %}
+                <input type="submit" class="btn btn-primary" value="保存"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% if errMsg %}
+<script type="text/javascript">
+    alert('{{errMsg}}');
+</script>
+{%endif%}
+
+{% endblock content %}
+
