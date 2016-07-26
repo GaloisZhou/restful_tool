@@ -1,6 +1,32 @@
 {% extends '../layout.html' %}
 
 {% block content %}
+<style>
+    a {
+        cursor: pointer;
+    }
+
+    .project-detail {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        width: 800px;
+        overflow: auto;
+    }
+
+    .project-detail .panel-body {
+        background: #fdf6e3;
+    }
+
+    .project-detail p {
+        margin: 0;
+    }
+
+    .project-detail p .left {
+        color: #b58900;
+    }
+</style>
 
 {% raw %}
 <div class="container" ng-controller="RestListCtrl">
@@ -34,7 +60,8 @@
                     </td>
                     <td>
                         <a href="http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}" target="_blank"
-                           ng-show="rest.urlPath">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
+                           ng-show="rest.urlPath && rest.method == 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
+                        <span ng-show="rest.urlPath && rest.method != 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</span>
                     </td>
                     <td>{{rest.method}}</td>
                     <td>{{rest.remark}}</td>
@@ -47,29 +74,6 @@
             <hr>
         </div>
     </div>
-
-    <style>
-        .project-detail {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            width: 800px;
-            overflow: auto;
-        }
-
-        .project-detail .panel-body {
-            background: #fdf6e3;
-        }
-
-        .project-detail p {
-            margin: 0;
-        }
-
-        .project-detail p .left {
-            color: #b58900;
-        }
-    </style>
 
     <div class="panel panel-info project-detail" ng-show="restDetail">
         <div class="panel-heading">
