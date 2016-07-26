@@ -15,23 +15,17 @@
             <th>名称</th>
             <th>说明</th>
             <th>编辑</th>
-            <th>删除</th>
+            <!--<th>删除</th>-->
         </tr>
         </thead>
         <tbody>
         {% for pi, pro in projects %}
         <tr>
             <td>{{loop.index}}</td>
-            <td>
-                <a href="/project/detail?id={{pro._id + ''}}">{{pro.name}}</a>
-            </td>
+            <td><a href="/project/detail?id={{pro._id + ''}}">{{pro.name}}</a></td>
             <td>{{pro.remark}}</td>
-            <td>
-                <a href="/project/add?id={{pro._id + ''}}" class="fui-new text-primary"></a>
-            </td>
-            <td>
-                <a href="/project/delete?id={{pro._id + ''}}" class="fui-trash text-danger"></a>
-            </td>
+            <td><a href="/project/add?id={{pro._id + ''}}" class="fui-new text-primary"></a></td>
+            <!--<td><a href="/project/delete?id={{pro._id + ''}}" class="fui-trash text-danger"></a></td>-->
         </tr>
         {% endfor %}
 
