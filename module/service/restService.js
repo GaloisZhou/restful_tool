@@ -67,7 +67,7 @@ service.saveOrUpdateById = function* (restData) {
         restData.requestDemo = processDemo(restData.requestDemo);
         restData.responseDemo = processDemo(restData.responseDemo);
     } catch (e) {
-        _result.errMsg = e.message;
+        _result.errMsg = e;
         return _result;
     }
 
