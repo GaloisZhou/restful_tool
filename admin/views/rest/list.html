@@ -1,11 +1,9 @@
-{% extends '../layout.html' %}
-
-{% block content %}
+{% extends '../layout.html' %} {% block content %}
 <style>
     a {
         cursor: pointer;
     }
-
+    
     .project-detail {
         position: fixed;
         top: 20px;
@@ -14,17 +12,22 @@
         width: 800px;
         overflow: auto;
     }
-
+    
     .project-detail .panel-body {
         background: #fdf6e3;
     }
-
+    
     .project-detail p {
         margin: 0;
     }
-
+    
     .project-detail p .left {
         color: #b58900;
+    }
+    
+    #restDetail {
+        height: 90%;
+        overflow: auto;
     }
 </style>
 
@@ -41,41 +44,44 @@
 
             <table class="table">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>名称</th>
-                    <th>url</th>
-                    <th>方法</th>
-                    <th>说明</th>
-                    <th>wiki</th>
-                    <th>编辑</th>
-                    <th>删除</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>名称</th>
+                        <th>url</th>
+                        <th>方法</th>
+                        <th>说明</th>
+                        <th>wiki</th>
+                        <th>编辑</th>
+                        <th>删除</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="rest in restObj[project._id][module._id]">
-                    <td>{{$index + 1}}</td>
-                    <td>
-                        <a ng-click="showDetail(rest, project.name, module.name)">{{rest.title}}</a>
-                    </td>
-                    <td>
-                        <a href="http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}" target="_blank"
-                           ng-show="rest.urlPath && rest.method == 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
-                        <span ng-show="rest.urlPath && rest.method != 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</span>
-                    </td>
-                    <td>{{rest.method}}</td>
-                    <td>{{rest.remark}}</td>
-                    <td><a href="{{rest.wikiUrl}}" target="_blank" ng-show="rest.wikiUrl">WIKI</a></td>
-                    <td><a href="/rest/add?id={{rest._id + ''}}" class="fui-new text-primary"></a></td>
-                    <td><a href="/rest/delete?id={{rest._id + ''}}" class="fui-trash text-danger"></a></td>
-                </tr>
+                    <tr ng-repeat="rest in restObj[project._id][module._id]">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            <a ng-click="showDetail(rest, project.name, module.name)">{{rest.title}}</a>
+                        </td>
+                        <td>
+                            <a href="http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}" target="_blank" ng-show="rest.urlPath && rest.method == 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
+                            <span ng-show="rest.urlPath && rest.method != 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</span>
+                        </td>
+                        <td>{{rest.method}}</td>
+                        <td>{{rest.remark}}</td>
+                        <td><a href="{{rest.wikiUrl}}" target="_blank" ng-show="rest.wikiUrl">WIKI</a></td>
+                        <td>
+                            <a href="/rest/add?id={{rest._id + ''}}" class="fui-new text-primary"></a>
+                        </td>
+                        <td>
+                            <a href="/rest/delete?id={{rest._id + ''}}" class="fui-trash text-danger"></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <hr>
         </div>
     </div>
 
-    <div class="panel panel-info project-detail" ng-show="restDetail">
+    <div class="panel panel-info project-detail" ng-show="restDetail" id="restDetail">
         <div class="panel-heading">
             <h3 class="panel-title">{{restDetail.title}}
                 <button type="button" class="close fui-cross" data-dismiss="alert" ng-click="closeDetail()"></button>
@@ -83,28 +89,24 @@
         </div>
         <div class="panel-body">
             <!--<p>{{restDetail.projectName}} - {{restDetail.moduleName}}</p>-->
-            <p><span class="left">{{restDetail.method}}</span> -
-                http://{{serverDomain}}{{restDetail.urlPath}}?pid={{restDetail.projectId}}</p>
+            <p><span class="left">{{restDetail.method}}</span> - http://{{serverDomain}}{{restDetail.urlPath}}?pid={{restDetail.projectId}}
+            </p>
             <p><span class="left">Content-Type</span>: application/json</p>
             <p>
-            <pre>{{restDetail.responseDemo}}</pre>
+                <pre>{{restDetail.responseDemo}}</pre>
             </p>
         </div>
     </div>
 </div>
-{% endraw %}
-{% endblock content %}
-
-{% block footer %}
-{% parent %}
+{% endraw %} {% endblock content %} {% block footer %} {% parent %}
 <script src="http://static.eppqq.com/ui_lib/angular-1.2.27/angular.min.js"></script>
 <script>
     var restApp = angular.module("restApp", []);
 
-    restApp.controller('RestListCtrl', ['$scope', '$http', function ($scope, $http) {
+    restApp.controller('RestListCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.restDetail = '';
 
-        $http.get('/rest/list/data').success(function (data) {
+        $http.get('/rest/list/data').success(function(data) {
             console.log(data);
             $scope.projects = data.projects || [];
             $scope.moduleObj = data.moduleObj || {};
@@ -112,7 +114,7 @@
             $scope.serverDomain = data.serverDomain || '';
         });
 
-        $scope.showDetail = function (restData, projectName, moduleName) {
+        $scope.showDetail = function(restData, projectName, moduleName) {
             $scope.restDetail = restData;
             $scope.restDetail.projectName = projectName;
             $scope.restDetail.moduleName = moduleName;
@@ -120,7 +122,7 @@
             console.log($scope.restDetail);
         };
 
-        $scope.closeDetail = function () {
+        $scope.closeDetail = function() {
             $scope.restDetail = '';
         }
 
