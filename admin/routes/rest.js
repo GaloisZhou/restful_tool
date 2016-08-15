@@ -31,6 +31,7 @@ module.exports = [
     route.post(routePath('/add/data'), addData),
 
     route.get(routePath('/list'), listPage),
+    route.get(routePath('/list/read_only'), listReadOnlyPage),
     route.get(routePath('/list/data'), listPageData),
     route.get(routePath('/delete'), deleteRest),
 ];
@@ -77,6 +78,10 @@ function* listPage() {
     yield this.render('rest/list', {});
 }
 
+function* listReadOnlyPage() {
+    yield this.render('rest/list_readonly', {});
+}
+
 function* listPageData() {
     let _result = yield {
         restDatas: restService.find(),
@@ -86,7 +91,7 @@ function* listPageData() {
     let _restDatas = _result.restDatas;
     let _projects = _result.projects;
     let _modules = _result.modules;
-    
+
     let _restObj = {};
     if (_restDatas) {
         _restDatas.forEach(rest => {

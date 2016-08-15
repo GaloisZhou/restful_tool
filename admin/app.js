@@ -39,7 +39,8 @@ mongoUtil.init(config.mongoDb)(function (err, db) {
     _router.initRouter(require('./routes/signin'));
 
     app.use(function*(next) {
-        if (this.session && this.session.user) {
+        let _excludeUrls = new Set(['/rest/list/data', '/rest/list/read_only']);
+        if (_excludeUrls.has(this.url) || (this.session && this.session.user)) {
             yield next;
         } else {
             this.redirect('/signin');

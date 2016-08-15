@@ -16,17 +16,21 @@ let _demo = {
     wikiUrl: '', // wiki 地址
     urlPathDefine: '',
     method: '', // GET, POST, PUT, DELETE
-    requestParams: {
-        key: '',
-        required: true, // 是否是必须的
-        type: 'number', // 类型
-        remark: '', // 说明
-    },
-    responseData: {
-        key: '',
-        type: 'number', // 类型
-        remark: '', // 说明
-    },
+    requestParams: [
+        {
+            key: '',
+            required: true, // 是否是必须的
+            type: 'number', // 类型
+            remark: '', // 说明
+        }
+    ],
+    responseData: [
+        {
+            key: '',
+            type: 'number', // 类型
+            remark: '', // 说明
+        }
+    ],
     urlPath: '', // demo
     requestDemo: '',
     responseDemo: '',

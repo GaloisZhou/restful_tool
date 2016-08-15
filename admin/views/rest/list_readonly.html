@@ -1,0 +1,168 @@
+{% extends '../layout.html' %}
+<!---->
+{% block nav %}{% endblock nav %}
+<!---->
+{% block content %}
+<style>
+    a {
+        cursor: pointer;
+    }
+
+    .project-detail {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        width: 800px;
+        overflow: auto;
+    }
+
+    .project-detail .panel-body {
+        background: #fdf6e3;
+    }
+
+    .project-detail p {
+        margin: 0;
+    }
+
+    .project-detail p .left {
+        color: #b58900;
+    }
+
+    #restDetail {
+        height: 90%;
+        overflow: auto;
+    }
+</style>
+
+{% raw %}
+<div class="container" ng-controller="RestListCtrl">
+    <h4>接口列表</h4>
+    <hr>
+
+    <div ng-repeat="project in projects">
+        <h4>项目: {{project.name}}</h4>
+        <div ng-repeat="module in moduleObj[project._id]">
+
+            <h6>模块: {{module.name}}</h6>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>url</th>
+                    <th>方法</th>
+                    <th>说明</th>
+                    <th>wiki</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="rest in restObj[project._id][module._id]">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <a ng-click="showDetail(rest, project.name, module.name)">{{rest.title}}</a>
+                    </td>
+                    <td>
+                        <a href="http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}" target="_blank"
+                           ng-show="rest.urlPath && rest.method == 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</a>
+                        <span ng-show="rest.urlPath && rest.method != 'GET'">http://{{serverDomain}}{{rest.urlPath}}?pid={{rest.projectId}}</span>
+                    </td>
+                    <td>{{rest.method}}</td>
+                    <td>{{rest.remark}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+    <div class="panel panel-info project-detail" ng-show="restDetail" id="restDetail">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{restDetail.title}}
+                <button type="button" class="close fui-cross" data-dismiss="alert" ng-click="closeDetail()"></button>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <!--<p>{{restDetail.projectName}} - {{restDetail.moduleName}}</p>-->
+            <p><span class="left">接口名称</span>: {{restDetail.title}}</p>
+            <p><span class="left">接口说明</span>: {{restDetail.remark}}</p>
+            <p><span class="left">{{restDetail.method}}</span> - {{restDetail.urlPathDefine}}</p>
+            <p><span class="left">Content-Type</span>: application/json</p>
+            <p><span class="left">请求参数</span>:</p>
+            <table class="table">
+                <tr>
+                    <th>参数名称</th>
+                    <th>是否必须</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                <tr ng-repeat="reqParam in restDetail.requestParams">
+                    <td>{{reqParam.key}}</td>
+                    <td>{{reqParam.required}}</td>
+                    <td>{{reqParam.type}}</td>
+                    <td>{{reqParam.remark}}</td>
+                </tr>
+            </table>
+
+            <p><span class="left">返回结果</span>:</p>
+            <table class="table">
+                <tr>
+                    <th>参数名称</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                <tr ng-repeat="reqParam in restDetail.responseData">
+                    <td>{{reqParam.key}}</td>
+                    <td>{{reqParam.type}}</td>
+                    <td>{{reqParam.remark}}</td>
+                </tr>
+            </table>
+
+            <hr>
+            <p><b>Demo: </b></p>
+
+            <p><span class="left">{{restDetail.method}}</span> -
+                http://{{serverDomain}}{{restDetail.urlPath}}?pid={{restDetail.projectId}}
+            </p>
+            <p><span class="left">Content-Type</span>: application/json</p>
+            <p><span class="left">请求参数</span>:
+            <pre>{{restDetail.requestDemo}}</pre>
+            </p>
+            <p><span class="left">返回结果</span>:
+            <pre>{{restDetail.responseDemo}}</pre>
+            </p>
+        </div>
+    </div>
+</div>
+{% endraw %} {% endblock content %} {% block footer %} {% parent %}
+<script src="http://static.eppqq.com/ui_lib/angular-1.2.27/angular.min.js"></script>
+<script>
+    var restApp = angular.module("restApp", []);
+
+    restApp.controller('RestListCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.restDetail = '';
+
+        $http.get('/rest/list/data').success(function (data) {
+            console.log(data);
+            $scope.projects = data.projects || [];
+            $scope.moduleObj = data.moduleObj || {};
+            $scope.restObj = data.restObj || {};
+            $scope.serverDomain = data.serverDomain || '';
+        });
+
+        $scope.showDetail = function (restData, projectName, moduleName) {
+            $scope.restDetail = restData;
+            $scope.restDetail.projectName = projectName;
+            $scope.restDetail.moduleName = moduleName;
+
+            console.log($scope.restDetail);
+        };
+
+        $scope.closeDetail = function () {
+            $scope.restDetail = '';
+        }
+
+    }]);
+</script>
+{% endblock footer %}
