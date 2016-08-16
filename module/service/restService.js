@@ -7,11 +7,11 @@ module.exports = service;
 
 var restDao = require('../dao/restDao');
 
-service.findOne = function* (query, options) {
+service.findOne = function*(query, options) {
     return yield restDao.findOne(query, options);
 };
 
-service.findById = function* (id) {
+service.findById = function*(id) {
     if (id) {
         console.log('{_id: restDao._id(id)}', {
             _id: restDao._id(id)
@@ -24,7 +24,7 @@ service.findById = function* (id) {
     }
 };
 
-service.find = function* (query, sort, skip, limit, fields) {
+service.find = function*(query, sort, skip, limit, fields) {
     sort = sort || {
         create_timestamp: 1
     };
@@ -33,7 +33,7 @@ service.find = function* (query, sort, skip, limit, fields) {
     return yield restDao.find(query, sort, skip, limit, fields);
 };
 
-service.saveOrUpdateById = function* (restData) {
+service.saveOrUpdateById = function*(restData) {
     let _result = {
         ok: false,
         _id: '',
@@ -117,6 +117,8 @@ service.saveOrUpdateById = function* (restData) {
     // restData.requestParams = '';
     // restData.responseData = '';
 
+    restData.moduleId = restData.moduleId || '';
+
     console.log('###########save or update restData: ', restData);
 
     if (_id) {
@@ -138,7 +140,7 @@ service.saveOrUpdateById = function* (restData) {
 };
 
 
-service.removeById = function* (id) {
+service.removeById = function*(id) {
     let _id = restDao._id(id);
     return yield restDao.remove({
         _id: _id
