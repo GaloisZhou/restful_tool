@@ -54,11 +54,16 @@ function* processHttpRequest() {
     let _restData = yield restService.findOne(_restQuery);
     console.log('_restData', _restData);
     let _responseDemo = _restData && _restData.responseDemo || '';
-    try {
-        _responseDemo = _responseDemo ? JSON.parse(_responseDemo) : '';
-        this.body = _responseDemo;
-    } catch (e) {
-        console.error(e);
-        this.body = e;
+    if (_responseDemo) {
+        try {
+            _responseDemo = _responseDemo ? JSON.parse(_responseDemo) : '';
+            this.body = _responseDemo;
+        } catch (e) {
+            console.error(e);
+            this.body = e;
+        }
+    } else {
+        this.body = {errMsg: '请求错误，请检查 url, method'};
     }
+    
 }
