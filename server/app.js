@@ -5,8 +5,8 @@ var app = require('koa')()
     , session = require('koa-session-redis')
     , mongoUtil = require('../module/utils/mongoDbUtils');
 
-global.config = require('../module/conf/config');
-// global.config = require('../module/conf/config_dev');
+// global.config = require('../module/conf/config');
+global.config = require('../module/conf/config_dev');
 
 var KoaRoute = require('../module/utils/KoaRoute'),
     _router = new KoaRoute(app);
@@ -24,6 +24,11 @@ app.use(session({store: config.redisDb.session}));
 app.use(require('koa-static')(__dirname + '/public'));
 
 app.use(function *(next) {
+    this.set("Access-Control-Allow-Origin", "*");
+    this.set("Access-Control-Allow-Credentials", "true");
+    this.set("Access-Control-Allow-Methods", "*");
+this.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, shop, user, Authorization");
+    this.set("Access-Control-Expose-Headers", "*");
     console.log('request ..... session ....', this.session);
     var start = new Date;
     yield next;

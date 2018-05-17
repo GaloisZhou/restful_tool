@@ -44,6 +44,12 @@ function* processHttpRequest() {
     console.log('_method', _method);
     console.log('-----------------------------------> 2');
 
+    if (_method.toUpperCase() == 'OPTIONS') {
+this.status = 200;
+        this.body = 'GET,POST,PUT,DELTE,OPTIONS';
+        return;
+    }
+
     let _restQuery = {
         urlPath: _urlPath,
         method: _method,
